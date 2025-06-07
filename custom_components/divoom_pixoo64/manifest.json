@@ -1,0 +1,19 @@
+{
+  "domain": "divoom_pixoo64",
+  "name": "Divoom Pixoo64",
+  "codeowners": [
+    "@KoenDierckx"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/divoom_pixoo64",
+  "homekit": {},
+  "iot_class": "local_polling",
+  "quality_scale": "bronze",
+  "requirements": [
+    "aiopixooapi==0.2.0"
+  ],
+  "ssdp": [],
+  "version": "0.1.0",
+  "zeroconf": []
+}
