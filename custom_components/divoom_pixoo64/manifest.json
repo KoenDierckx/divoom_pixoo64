@@ -6,12 +6,13 @@
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://www.home-assistant.io/integrations/divoom_pixoo64",
+  "documentation": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64",
+  "issue_tracker": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64/issues",
   "homekit": {},
   "iot_class": "local_polling",
   "quality_scale": "bronze",
   "requirements": [
-    "aiopixooapi==0.2.0"
+    "aiopixooapi==0.2.2"
   ],
   "ssdp": [],
   "version": "0.1.0",
