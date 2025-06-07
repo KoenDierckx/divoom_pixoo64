@@ -1,2 +1,5 @@
 [tools]
 python = "latest"
+
+[env]
+PYTHONPATH = "${PYTHONPATH}:${PWD}/custom_components"
