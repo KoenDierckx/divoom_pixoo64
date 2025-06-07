@@ -9,5 +9,59 @@
       "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]",
       "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]"
     }
+        },
+        "config": {
+          "step": {
+      "user": {
+        "title": "Connect to Divoom Pixoo64",
+        "description": "Set up your Divoom Pixoo64 integration. You need to know the IP address of your device.",
+        "data": {
+          "host": "IP Address",
+          "name": "Name"
+        }
+      }
+          },
+          "error": {
+      "cannot_connect": "Failed to connect to the device. Please check the IP address and ensure the device is online."
+          },
+          "abort": {
+      "already_configured": "This device is already configured"
+          }
+        },
+        "services": {
+          "display_text": {
+      "name": "Display Text",
+      "description": "Display text on the Pixoo64 device.",
+      "fields": {
+        "text": {
+          "name": "Text",
+          "description": "Text to display on the device."
+        },
+        "color": {
+          "name": "Color",
+          "description": "Color of the text in hex format (e.g., FFFFFF for white)."
+        }
+      }
+          },
+          "display_image": {
+      "name": "Display Image",
+      "description": "Display an image on the Pixoo64 device.",
+      "fields": {
+        "image_path": {
+          "name": "Image Path",
+          "description": "Path to the image file to display."
+        }
+      }
+          },
+          "set_brightness": {
+      "name": "Set Brightness",
+      "description": "Set the brightness of the Pixoo64 device.",
+      "fields": {
+        "brightness": {
+          "name": "Brightness",
+          "description": "Brightness level (0-100)."
+        }
+      }
+          }
   }
 }
