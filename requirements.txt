@@ -1,1 +1,3 @@
 homeassistant==2025.5.3
+zlib-ng
+isal
