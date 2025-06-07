@@ -5,6 +5,19 @@
     "@KoenDierckx"
   ],
   "config_flow": true,
+  "dhcp": [
+    {
+      "hostname": "pixoo*",
+      "macaddress": "244CAB*"
+    },
+    {
+      "hostname": "espressif",
+      "macaddress": "244CAB*"
+    },
+    {
+      "registered_devices": true
+    }
+  ],
   "dependencies": [],
   "documentation": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64",
   "issue_tracker": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64/issues",

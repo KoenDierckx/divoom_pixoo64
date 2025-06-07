@@ -29,7 +29,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     name = entry.data.get(CONF_NAME, DEFAULT_NAME)
 
     try:
-        # Create coordinator with host parameter
+        # Create coordinator with the host parameter
         coordinator = DivoomPixooCoordinator(
             hass=hass,
             host=host,

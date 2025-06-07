@@ -19,6 +19,10 @@
           "host": "IP Address",
           "name": "Name"
         }
+              },
+              "dhcp_confirm": {
+        "description": "Do you want to set up this Pixoo device?\n\nDevice: {name}\nIP Address: {host}",
+        "title": "Confirm Pixoo device discovery"
       }
           },
           "error": {

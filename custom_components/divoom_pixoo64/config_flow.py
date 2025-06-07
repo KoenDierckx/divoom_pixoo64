@@ -3,17 +3,14 @@
 import logging
 from typing import Any, Dict
 
-import aiopixooapi
+import voluptuous as vol
 from aiopixooapi.divoom import Divoom
 from aiopixooapi.pixoo64 import Pixoo64
-import voluptuous as vol
-
 from homeassistant import config_entries
-from homeassistant.const import CONF_NAME
+from homeassistant.components.dhcp import DhcpServiceInfo
+from homeassistant.const import CONF_MAC, CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
-from homeassistant.exceptions import HomeAssistantError
-import homeassistant.helpers.config_validation as cv
 
 from .const import CONF_HOST, DEFAULT_NAME, DOMAIN
 
@@ -81,4 +78,70 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 CONF_HOST: host,
                 CONF_NAME: DEFAULT_NAME,
             },
+        )
+    
+    async def async_step_dhcp(self, discovery_info: DhcpServiceInfo) -> FlowResult:
+        """Handle DHCP discovery."""
+        _LOGGER.info("Discovered Pixoo device via DHCP: %s", discovery_info)
+        
+        # Use MAC address as the unique ID
+        await self.async_set_unique_id(discovery_info.macaddress)
+        self._abort_if_unique_id_configured(
+            updates={CONF_HOST: discovery_info.ip}
+        )
+        
+        # Use hostname as part of the name if available
+        hostname = discovery_info.hostname
+        name = f"Pixoo ({hostname})" if hostname else DEFAULT_NAME
+        
+        # Try to connect to device
+        try:
+            pixoo = Pixoo64(discovery_info.ip)
+            await pixoo.get_all_settings()
+            
+            return self.async_create_entry(
+                title=name,
+                data={
+                    CONF_HOST: discovery_info.ip,
+                    CONF_NAME: name,
+                    CONF_MAC: discovery_info.macaddress,
+                },
+            )
+        except Exception as exc:  # pylint: disable=broad-except
+            _LOGGER.error("Failed to connect to discovered Pixoo device: %s", exc)
+            # Store discovery info for the confirm step
+            self.context["dhcp_discovery"] = {
+                CONF_HOST: discovery_info.ip,
+                CONF_NAME: name,
+                CONF_MAC: discovery_info.macaddress,
+            }
+            return await self.async_step_dhcp_confirm()
+    
+    async def async_step_dhcp_confirm(self, user_input=None) -> FlowResult:
+        """Confirm DHCP discovery."""
+        errors = {}
+        discovery_info = self.context.get("dhcp_discovery", {})
+        
+        if user_input is not None:
+            try:
+                # Test connection to the device
+                pixoo = Pixoo64(discovery_info[CONF_HOST])
+                await pixoo.get_all_settings()
+                
+                # Create entry
+                return self.async_create_entry(
+                    title=discovery_info[CONF_NAME],
+                    data=discovery_info,
+                )
+            except Exception:  # pylint: disable=broad-except
+                _LOGGER.exception("Unexpected exception")
+                errors["base"] = "cannot_connect"
+        
+        return self.async_show_form(
+            step_id="dhcp_confirm",
+            description_placeholders={
+                "host": discovery_info.get(CONF_HOST),
+                "name": discovery_info.get(CONF_NAME),
+            },
+            errors=errors,
         )
