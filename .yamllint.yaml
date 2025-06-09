@@ -1,0 +1,6 @@
+extends: default
+rules:
+  line-length:
+    max: 120 # Example: Be more lenient with line length
+  key-duplicates: enable
+  # Add other yamllint rules or configurations as needed

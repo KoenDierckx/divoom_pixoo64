@@ -1,0 +1,6 @@
+pre-commit
+ruff
+yamllint
+homeassistant-cli
+hacs-cli
+mypy

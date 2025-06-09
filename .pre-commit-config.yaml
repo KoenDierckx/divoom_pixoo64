@@ -1,0 +1,59 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0 # Use a recent, stable version
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-json
+        exclude: .devcontainer/devcontainer.json # Exclude potentially non-standard JSON
+    -   id: check-added-large-files
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9 # Use a recent, stable version of Ruff
+    hooks:
+    -   id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+    -   id: ruff-format
+-   repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0 # Use a recent, stable version
+    hooks:
+    -   id: yamllint
+        args: ['-c=.yamllint.yaml'] # Point to a yamllint config file
+-   repo: https://github.com/home-assistant/home-assistant-cli
+    rev: 0.19.0 # Use a recent version of hass-cli, check for latest
+    hooks:
+    -   id: hass-cli-schema
+        args:
+        - "--path=./custom_components/divoom_pixoo64/manifest.json"
+    # If you had a services.yaml, you would add it here:
+    # -   id: hass-cli-schema
+    #     args:
+    #     - "--path=./custom_components/divoom_pixoo64/services.yaml"
+    #     # Ensure it's triggered only if the services.yaml exists or is modified
+    #     files: ^custom_components/divoom_pixoo64/services\.yaml$
+    # The style check might be largely covered by Ruff, but can catch some HA specifics.
+    # Consider if it's needed alongside Ruff. For now, I'll include it.
+    -   id: hass-cli-style
+        args:
+        - "--component=custom_components.divoom_pixoo64"
+-   repo: https://github.com/hacs/action
+    rev: v1.5.0 # Use a recent version of hacs/action which includes hacs-cli
+    hooks:
+    -   id: hacs-validate
+        # Assuming your integration is in 'custom_components/divoom_pixoo64'
+        # The hook should ideally run from the repo root.
+        # The hacs-cli might automatically find the component or might need path adjustment.
+        # For now, relying on its default behavior to find HACS components.
+        # If issues arise, 'entry' or 'args' might be needed to specify the path.
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.1 # Use a recent, stable version of mypy
+    hooks:
+    -   id: mypy
+        args: [--strict] # Using strict mode is a good starting point
+        # You might need to add 'additional_dependencies' if your project uses
+        # libraries that require stubs not included with mypy by default.
+        # For example:
+        # additional_dependencies: [types-requests]
+        # Home Assistant stubs are usually handled by hass-cli or are part of HA core.
+        # Exclude files or directories if necessary, e.g., auto-generated files
+        # exclude: ^(path/to/exclude/|another_file_to_exclude\.py)$
