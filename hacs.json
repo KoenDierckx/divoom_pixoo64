@@ -1,5 +1,4 @@
 {
   "name": "Divoom Pixoo64",
-  "homeassistant": "2025.5.3",
-  "hacs": "2.0.5"
+  "render_readme": true
 }

@@ -7,9 +7,9 @@
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64",
-  "issue_tracker": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64/issues",
   "homekit": {},
   "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/KoenDierckx/home-assistant-divoom-pixoo64/issues",
   "quality_scale": "bronze",
   "requirements": [
     "aiopixooapi==0.2.2"
