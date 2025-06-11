@@ -1,13 +1,61 @@
 {
-    "config": {
-        "abort": {
-            "no_devices_found": "No devices found on the network",
-            "single_instance_allowed": "Already configured. Only a single configuration possible."
-        },
-        "step": {
-            "confirm": {
-                "description": "Do you want to start setup?"
-            }
+  "config": {
+    "step": {
+      "confirm": {
+        "description": "Do you want to start setup?"
+      },
+      "user": {
+        "title": "Connect to Divoom Pixoo64",
+        "description": "Set up your Divoom Pixoo64 integration. You need to know the hostname or IP address of your device.",
+        "data": {
+          "host": "Hostname or IP Address",
+          "name": "Name"
         }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Already configured. Only a single configuration possible.",
+      "no_devices_found": "No devices found on the network",
+      "already_configured": "This device is already configured"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the device. Please check the hostname or IP address and ensure the device is online."
     }
+  },
+  "services": {
+    "display_text": {
+      "name": "Display Text",
+      "description": "Display text on the Pixoo64 device.",
+      "fields": {
+        "text": {
+          "name": "Text",
+          "description": "Text to display on the device."
+        },
+        "color": {
+          "name": "Color",
+          "description": "Color of the text in hex format (e.g., FFFFFF for white)."
+        }
+      }
+    },
+    "display_image": {
+      "name": "Display Image",
+      "description": "Display an image on the Pixoo64 device.",
+      "fields": {
+        "image_path": {
+          "name": "Image Path",
+          "description": "Path to the image file to display."
+        }
+      }
+    },
+    "set_brightness": {
+      "name": "Set Brightness",
+      "description": "Set the brightness of the Pixoo64 device.",
+      "fields": {
+        "brightness": {
+          "name": "Brightness",
+          "description": "Brightness level (0-100)."
+        }
+      }
+    }
+  }
 }

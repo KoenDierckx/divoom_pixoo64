@@ -30,16 +30,17 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             try:
                 # Directly await the coroutine
                 await pixoo64.get_all_settings()
+
+                # Create entry
+                return cast(FlowResult, self.async_create_entry(
+                    title=user_input.get(CONF_NAME, DEFAULT_NAME),
+                    data=user_input,
+                ))
             except PixooError:
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "cannot_connect"
             finally:
                 await pixoo64.close()
-            # Create entry
-            return cast(FlowResult, self.async_create_entry(
-                title=user_input.get(CONF_NAME, DEFAULT_NAME),
-                data=user_input,
-            ))
 
         return cast(FlowResult, self.async_show_form(
             step_id="user",
