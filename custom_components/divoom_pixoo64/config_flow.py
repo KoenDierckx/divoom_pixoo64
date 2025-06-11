@@ -25,14 +25,16 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         
         if user_input is not None:
+            # Test connection to the device
+            pixoo64 = Pixoo64(user_input[CONF_HOST])
             try:
-                # Test connection to the device
-                with Pixoo64(user_input[CONF_HOST]) as pixoo:
-                    # Directly await the coroutine
-                    await pixoo.get_all_settings()
+                # Directly await the coroutine
+                await pixoo64.get_all_settings()
             except PixooError:
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "cannot_connect"
+            finally:
+                await pixoo64.close()
             # Create entry
             return cast(FlowResult, self.async_create_entry(
                 title=user_input.get(CONF_NAME, DEFAULT_NAME),
