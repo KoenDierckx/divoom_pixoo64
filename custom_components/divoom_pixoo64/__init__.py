@@ -30,7 +30,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     try:
         # Create coordinator with host parameter
-        coordinator = DivoomPixooCoordinator(
+        divoom_pixoo_coordinator = DivoomPixooCoordinator(
             hass=hass,
             host=host,
             name=name,
@@ -38,11 +38,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         )
 
         # Fetch initial data
-        await coordinator.async_config_entry_first_refresh()
+        await divoom_pixoo_coordinator.async_config_entry_first_refresh()
         
         # Store coordinator for platforms to access
         hass.data.setdefault(DOMAIN, {})
-        hass.data[DOMAIN][entry.entry_id] = coordinator
+        hass.data[DOMAIN][entry.entry_id] = divoom_pixoo_coordinator
         
         # Set up all platforms
         await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
@@ -56,6 +56,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
+    divoom_pixoo_coordinator: DivoomPixooCoordinator = hass.data[DOMAIN][entry.entry_id]
+    await divoom_pixoo_coordinator.async_close()  # Close the API session
+
     if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
         hass.data[DOMAIN].pop(entry.entry_id)
     

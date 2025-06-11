@@ -79,3 +79,7 @@ class DivoomPixooCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
         except Exception as err:
             self.logger.error("Failed to set brightness: %s", err)
             raise UpdateFailed(f"Failed to set brightness: {err}") from err
+
+    async def async_close(self) -> None:
+        """Close the API session."""
+        await self.api.close()

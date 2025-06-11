@@ -1,4 +1,5 @@
 homeassistant==2025.5.3
+voluptuous==0.15.2
 zlib-ng==0.5.1
 isal==1.7.2
 
