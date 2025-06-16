@@ -50,19 +50,19 @@ class DivoomPixoo64Light(CoordinatorEntity[DivoomPixooCoordinator], LightEntity)
     @property
     def is_on(self) -> bool:
         """Return true if the light is on."""
-        return self.coordinator.data.get("is_on", False)
+        return self.coordinator.data.is_on
 
     @property
     def brightness(self) -> int:
         """Return the brightness of the light."""
         # Convert 0-100 to 0-255
-        brightness_pct = self.coordinator.data.get("brightness", 0)
+        brightness_pct = self.coordinator.data.brightness
         return int(brightness_pct * 255 / 100)
 
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
-        return self.coordinator.data.get("connected", False)
+        return self.coordinator.data.connected
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn on the light."""

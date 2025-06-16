@@ -5,6 +5,10 @@ DOMAIN = "divoom_pixoo64"
 CONF_HOST = "host"
 DEFAULT_NAME = "Divoom Pixoo64"
 
+# Device info constants
+MANUFACTURER = "Divoom"
+MODEL = "Pixoo64"
+
 # Service constants
 SERVICE_DISPLAY_TEXT = "display_text"
 SERVICE_DISPLAY_IMAGE = "display_image"
@@ -23,3 +27,4 @@ DEFAULT_BRIGHTNESS = 80
 # Update interval in seconds
 SCAN_INTERVAL = 30
 THROTTLE_INTERVAL = 1.0  # seconds between API calls
+
