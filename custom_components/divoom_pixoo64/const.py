@@ -22,3 +22,4 @@ DEFAULT_BRIGHTNESS = 80
 
 # Update interval in seconds
 SCAN_INTERVAL = 30
+THROTTLE_INTERVAL = 1.0  # seconds between API calls

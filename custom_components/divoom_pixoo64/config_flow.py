@@ -23,24 +23,21 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input=None) -> FlowResult:
         """Handle the initial step."""
         errors = {}
-        
+
         if user_input is not None:
             # Test connection to the device
-            pixoo64 = Pixoo64(user_input[CONF_HOST])
-            try:
-                # Directly await the coroutine
-                await pixoo64.get_all_settings()
+            async with Pixoo64(user_input[CONF_HOST]) as pixoo64:
+                try:
+                    await pixoo64.get_all_settings()
 
-                # Create entry
-                return cast(FlowResult, self.async_create_entry(
-                    title=user_input.get(CONF_NAME, DEFAULT_NAME),
-                    data=user_input,
-                ))
-            except PixooError:
-                _LOGGER.exception("Unexpected exception")
-                errors["base"] = "cannot_connect"
-            finally:
-                await pixoo64.close()
+                    # Create entry
+                    return cast(FlowResult, self.async_create_entry(
+                        title=user_input.get(CONF_NAME, DEFAULT_NAME),
+                        data=user_input,
+                    ))
+                except PixooError:
+                    _LOGGER.exception("Unexpected exception")
+                    errors["base"] = "cannot_connect"
 
         return cast(FlowResult, self.async_show_form(
             step_id="user",
@@ -56,11 +53,11 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_discovery(self, discovery_info: Dict[str, Any]) -> FlowResult:
         """Handle discovery flow."""
         host = discovery_info.get("host")
-        
+
         # Check if already configured
         await self.async_set_unique_id(host)
         self._abort_if_unique_id_configured()
-        
+
         # Create entry
         return cast(FlowResult, self.async_create_entry(
             title=DEFAULT_NAME,
